@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+<mapper namespace="com.todo.dao.mapper.CategoryMapper">
+  <select id="getCategoryList" resultType="com.todo.entity.Category">
+    SELECT
+    categories.id,
+    categories.name,
+    categories.color
+    FROM
+    categories
+    WHERE
+    status != 1
+  </select>
+  <insert id="saveCategory" parameterType="com.todo.entity.Category">
+    INSERT INTO categories (
+      name,
+      color
+    ) VALUES (
+      #{name},
+      #{color}
+    )
+  </insert>
+  <update id="editCategory" parameterType="com.todo.entity.Category">
+    UPDATE
+    categories
+    SET
+    name = #{name},
+    color = #{color}
+    WHERE
+    id = #{id}
+  </update>
+  <update id="deleteCategory" parameterType="Integer">
+    update
+    categories
+    SET
+    status = 1
+    WHERE
+    id = #{categoryId}
+  </update>
+  <update id="deleteRelatedTasks" parameterType="Integer">
+    update
+    tasks
+    SET
+    status = 2
+    WHERE
+    category_id = #{categoryId}
+  </update>
+</mapper>
